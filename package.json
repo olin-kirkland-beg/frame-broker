@@ -1,0 +1,19 @@
+{
+  "name": "frame-broker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "author": "Olin Kirkland",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^22.15.23",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}

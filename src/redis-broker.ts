@@ -8,13 +8,16 @@ export default class RedisBroker {
     private static instance: RedisBroker | null;
     private subscriber: RedisClientType | null = null;
     private publisher: RedisClientType | null = null;
+    private mask: string = '*';
 
     public onMessage: (message: any, channel: string) => void = () => {};
 
-    private constructor() {}
+    private constructor(mask: string = '*') {
+        this.mask = mask;
+    }
 
-    static getInstance(): RedisBroker {
-        if (!RedisBroker.instance) RedisBroker.instance = new RedisBroker();
+    static getInstance(mask: string = '*'): RedisBroker {
+        if (!RedisBroker.instance) RedisBroker.instance = new RedisBroker(mask);
         return RedisBroker.instance;
     }
 
@@ -30,17 +33,18 @@ export default class RedisBroker {
         this.publisher = createClient(config);
 
         this.subscriber.on('error', (err: any) => {
-            console.error('RedisBroker error:', err.message);
+            console.error('RedisBroker error:', err);
         });
 
         console.log(`Connecting to Redis on ${ADDRESS}...`);
         await this.subscriber.connect();
-        console.log(`  ... (1/2) Subscriber connected`);
+        console.log(`  ... (1/2) subscriber connected`);
         await this.publisher.connect();
-        console.log(`  ... (2/2) Publisher connected`);
+        console.log(`  ... (2/2) publisher connected`);
 
         // Listen for changes from Redis channels
-        await this.subscriber.pSubscribe('*', this.onMessage);
+        console.log(`Subscribing to Redis channels with mask "${this.mask}"`);
+        this.subscriber.pSubscribe(this.mask, this.onMessage);
     }
 
     /**

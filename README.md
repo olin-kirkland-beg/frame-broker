@@ -4,8 +4,9 @@ Frame Broker is a NodeJS program that forwards data from USB devices onto a Redi
 ## Deployment
 1. Build using the `npm run build` command.
 2. Copy the `dist` folder over to the target machine at `/opt/frame-broker/`.
-3. Copy the `node_modules` folder to `/opt/frame-broker/`.
-4. Copy the `frame-broker.service` file to `/etc/systemd/system/`.
+3. Copy the `package.json` file over to `/opt/frame-broker/`.
+4. Copy the `node_modules` folder to `/opt/frame-broker/`.
+5. Copy the `frame-broker.service` file to `/etc/systemd/system/`.
 
 ## Troubleshooting
 To check if it's enabled to start on boot, use the command:
